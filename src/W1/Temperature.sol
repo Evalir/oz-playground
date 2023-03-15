@@ -8,7 +8,7 @@ pragma solidity ^0.8.13;
 /// Whoever gets the temperature right gets to cash out first.
 /// If several people get the bet right, have fun frontrunning them for the prize :).
 /// The `cashout_unsafe` function is vulnerable to reentrancy.
-contract TemperatureBetting {
+contract Temperature {
     uint256 public temperature;
     address public owner;
     mapping(address => uint256) public bets;
@@ -46,14 +46,14 @@ contract TemperatureBetting {
         require(temperature > 0, "Temperature is not set yet");
         require(bets[msg.sender] == temperature, "You did not guess the temperature.");
         bets[msg.sender] = 0;
-        (bool success, ) = payable(msg.sender).call{value: address(this).balance}("");
+        (bool success,) = payable(msg.sender).call{value: address(this).balance}("");
         require(success, "transfer failed");
     }
 
     function cashout_unsafe() public {
         require(temperature > 0, "Temperature is not set yet");
         require(bets[msg.sender] == temperature, "You did not guess the temperature.");
-        (bool success, ) = payable(msg.sender).call{value: address(this).balance}("");
+        (bool success,) = payable(msg.sender).call{value: address(this).balance}("");
         require(success, "transfer failed");
         bets[msg.sender] = 0;
     }
