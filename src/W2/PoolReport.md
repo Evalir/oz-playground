@@ -34,6 +34,7 @@ As soon as x is bigger than y, due to lack of precision, the ETH Price will alwa
 
 ## Vulnerability: Swaps do not expire, leaving them prone to long-tail MEV strategies and multi-block price manipulation
 Swaps do not implement a `deadline`, which would allow the user to willingly set a duration for which the trade is valid. As this is not implemented, apart from the ever-present atomic MEV arbitrage, this also leaves the swaps vulnerable to multi-block price manipulation, giving the user a worse price or making them completely miss a trade.
+
 **Fix:** Implement a `deadline` and check against `block.timestamp`.
 
 ## Vulnerability: No slippage protection implemented on swap functions
