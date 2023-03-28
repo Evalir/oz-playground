@@ -54,7 +54,7 @@ contract TreasuryPoC is Helpers {
         // The treasury can receive unauthorized tokens; they just won't be assigned to the donor.
         // This can be done by just transfering to the treasury address.
         unauthorizedToken.transfer(address(t), 100);
-        assertEq(t.getDonation(address(this), address(unauthorizedToken)), 0);
+        assertEq(t.getDonation(address(this), address(token)), 0);
         assertEq(t.allowlist(address(unauthorizedToken)), false);
         assertEq(unauthorizedToken.balanceOf(address(t)), 100);
         assertEq(unauthorizedToken.balanceOf(address(this)), 900);

@@ -5,7 +5,6 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
-
 /**
  * @title Treasury
  * @dev This contract accepts donations in ERC-20 tokens. Only tokens that have been added to the
@@ -15,11 +14,10 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
  * specification.
  */
 contract Treasury is Ownable {
-
     using SafeERC20 for ERC20;
 
     struct Donation {
-        uint256 amount;       // Total amount of the token that has been donated
+        uint256 amount; // Total amount of the token that has been donated
         uint256 numDonations; // The total number of donations the account has made
     }
 
@@ -36,7 +34,6 @@ contract Treasury is Ownable {
      * @param _amount Amount of _token that is being donated.
      */
     function donate(address _token, uint256 _amount) external {
-
         // Only tokens on the allowlist can be donated
         require(allowlist[_token], "Invalid token");
 
@@ -60,15 +57,14 @@ contract Treasury is Ownable {
     function getDonation(address _account, address _token) public view returns (uint256) {
         return donations[_account][_token].amount;
     }
-    
+
     // Update the donor registry
     function _updateDonor(Donation memory donation, uint256 _amount) private {
-        unchecked{
+        unchecked {
             donation.amount += _amount;
             donation.numDonations++;
         }
     }
 
     /* Additional functions that have been properly implemented and are bug-free. */
-    
 }

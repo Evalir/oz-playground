@@ -10,10 +10,10 @@ contract FixedPointMathTest is Helpers {
     function setUp() public {}
 
     function test_diff_fuzz_Solmate(uint256 x, uint256 y) public view {
-        x = bound(x, 1, uint256(1*1e38));
-        y = bound(y, 1, uint256(1*1e38));
-        uint a = FixedPointMath.mulWad(x, y);
-        uint b = FixedPointMathLib.mulWadDown(x, y);
+        x = bound(x, 1, uint256(1 * 1e38));
+        y = bound(y, 1, uint256(1 * 1e38));
+        uint256 a = FixedPointMath.mulWad(x, y);
+        uint256 b = FixedPointMathLib.mulWadDown(x, y);
         assert(a == b);
     }
 }
