@@ -1,7 +1,7 @@
 # WETHDonations report
 ## Vulnerability: donateWithPermit is broken and does not work as intended.
 `donateWithPermit` is broken in multiple ways. We'll break them down:
-- The call to `_logDonation` increases the balance of the transaction sender, not the actual donor `target`.
+- The call to `_logDonation` increases the balance of the `msg.sender`, not the actual donor (which could be or not `target`).
 - `WETH9` does not implement EIP2612 permits, so the call to `permit` won't work as intended—it will instead go to the fallback function, which won't fail but rather perform a 0-amount deposit.
 - As no amount was really approved, `transferFrom` will revert unless the `target` has actually approved the `msg.sender` before hand. In this case, this can cause **loss of funds**, as the tokens transferred to the donation contract are attributed to the msg.sender, not the `target`, therefore letting the `msg.sender` withdraw them after the amount of time has passed or if the exploit the vulnerability in `addLockTime`.
 - In the case WETH9 had permits, the function would still be vulnerable to replay & malleability attacks, as the signature is not stored anywhere to check if it has been used before and the `s` value is not restricted. On top of this, no EIP712 structured hash is implemented.
