@@ -9,7 +9,7 @@
 Due to the contract allowing a compiler version pre 0.8, the contract could be compiled with a 0.7.x version and therefore contain unchecked math. it would then be possible to overflow the `lockTimes[msg.sender]` slot and allow the user to withdraw before the intended time.
 ## Vulnerability: Possible OOG depending on withdrawal method due to `.transfer()` usage
 The `withdraw` function, while reentrancy safe, it uses `.transfer` to send the user's balance. This only forwards 2100 gas, and therefore any complex interactions which are not direct withdrawals through an EOA might fail.
-# Vulnerability: No way to freeze the implementation
+## Vulnerability: No way to freeze the implementation
 As the contract will be deployed as a proxy, ideally the implementation would be freezed so that users always have to go through the proxy. Consider implementing a freeze functionality.
 ## Note: No natspec usage.
 Please consider using natspec for documentation.
