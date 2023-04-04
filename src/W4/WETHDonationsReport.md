@@ -11,6 +11,8 @@ Due to the contract allowing a compiler version pre 0.8, the contract could be c
 The `withdraw` function, while reentrancy safe, it uses `.transfer` to send the user's balance. This only forwards 2100 gas, and therefore any complex interactions which are not direct withdrawals through an EOA might fail.
 ## Vulnerability: No way to freeze the implementation
 As the contract will be deployed as a proxy, ideally the implementation would be freezed so that users always have to go through the proxy. Consider implementing a freeze functionality.
+# Vulnerability: no upgrade logic in the contract for its use as a proxy implementation
+As the contract will be deployed using a proxy, this lack of upgrade logic will restrict the kind of proxy it can use to Transparent Proxies. OpenZeppelin's recommended proxy is the UUPS, which requires the upgrade logic to be in the implementation.
 ## Note: No natspec usage.
 Please consider using natspec for documentation.
 ## Note: No events emitted on `donate`, `donateWithPermit`, `addLockTime` nor `withdraw`
@@ -19,3 +21,7 @@ Please consider emitting events on these interactions, as it will help with inde
 Please consider using uint256 instead of `uint` for removing any doubt or clarity over types.
 # Note: The `weth` variable could be a constant
 As the contract is written on the assumptions of the canonical WETH contract, it could become a constant to signal it should not be changed.
+# Note: `withdraw` and `addLockTime` could be external
+Please consider making addLockTime and withdraw external, as this will add gas savings and there's no need for these functions to be called internally.
+# Note: Consider using `safeTransferFrom` instead of `safeTransfer` for future security
+While the WETH Token has expected behavior on transfers, having an extra layer of safety by using `SafeERC20`'s `safeTransferFrom` function to completely smooth out any weird behavior if the contract is upgraded in the future to use other tokens or implementations.
