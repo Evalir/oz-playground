@@ -5,7 +5,7 @@ libs = ['lib']
 optimizer = true
 optimizer_runs = 100000
 # Latest solidity version recommended by slither
-solc_version = "0.8.17"
+# solc_version = "0.8.17"
 [fuzz]
 runs = 10000
 
